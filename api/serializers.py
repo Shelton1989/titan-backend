@@ -58,6 +58,7 @@ class GarageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 class AssetSerializer(serializers.HyperlinkedModelSerializer):
+    garage = GarageSerializer(read_only=True)
 
     class Meta: 
         model = Asset
