@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from api.models import User, UserProfile, Garage, Asset
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -40,7 +41,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 class GarageSerializer(serializers.HyperlinkedModelSerializer):
-
+    url = serializers.HyperlinkedIdentityField(view_name="garages-detail")
     class Meta:
         model = Garage
         fields = (
@@ -58,7 +59,10 @@ class GarageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 class AssetSerializer(serializers.HyperlinkedModelSerializer):
-    garage = GarageSerializer(read_only=True)
+    garage = serializers.SlugRelatedField(slug_field='title', queryset=Garage.objects.all().filter(asset=None))
+
+    def get_queryset(self):
+        return Asset.objects.all().sort_by("-date")
 
     class Meta: 
         model = Asset

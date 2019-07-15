@@ -1,11 +1,13 @@
-FROM python:3.7
+FROM gcr.io/google_appengine/python
 
-ENV PYTHONUNBUFFERED 1
+RUN virtualenv -p python3 /env
 
-RUN mkdir /site_manager
+ENV PATH /env/bin:$PATH
 
-WORKDIR /site_manager
+ADD requirements.txt /app/requirements.txt
 
-ADD . /site_manager
+RUN /env/bin/pip install --upgrade pip && /env/bin/pip install -r /app/requirements.txt
 
-RUN pip install -r requirements.txt
+ADD . /app
+
+CMD gunicorn -b :$PORT app.wsgi

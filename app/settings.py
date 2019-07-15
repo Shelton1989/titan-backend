@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k0%%y6qoh7ln+1y8h(mx^%lx3ne=d^p=&qzlo6ve=8e0@&+b1h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -60,7 +60,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        
     ],
 }
 
@@ -92,8 +94,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db_titan',
+        'USER': 'root',
+        'PASSWORD': '@#Titan0113386008',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -134,7 +140,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+STATIC_URL = 'http://storage.googleapis.com/titan_storage/static/'
+
+STATIC_ROOT = 'static/'
 
 AUTH_USER_MODEL = 'api.User'
 

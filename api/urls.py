@@ -4,7 +4,7 @@ from api.views import UserViewSet, GarageViewSet, AssetViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'garages', GarageViewSet)
+router.register(r'garages', GarageViewSet, base_name='garages')
 router.register(r'assets', AssetViewSet)
 
 

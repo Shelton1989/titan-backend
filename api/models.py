@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     date_joined = models.DateField(blank=True, null=True)
 
 class Garage(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, unique=True)
     manager_title = models.CharField(max_length=5)
     manager_name = models.CharField(max_length=50)
     email_address = models.EmailField(unique=True)
@@ -31,12 +31,14 @@ class Garage(models.Model):
     ext = models.IntegerField(blank=True, null=True)
     city = models.CharField(max_length=20)
     province = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     def __str__(self):
         return "{}".format(self.title)
 
 class Asset(models.Model):
-    garage = models.OneToOneField(Garage, on_delete=models.CASCADE, related_name='owner')
+    garage = models.OneToOneField(Garage, on_delete=models.CASCADE, related_name='asset', blank=True, null=True)
     asset_serial_number = models.CharField(max_length=100)
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
@@ -51,9 +53,10 @@ class Asset(models.Model):
     motor_amps = models.CharField(max_length=10)
     pressure_switch_details = models.CharField(max_length=150)
     water_trap = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
     installation_date = models.DateField()
     last_service = models.DateField()
 
     def __str__(self):
         return "{}".format(self.asset_serial_number)
-
